@@ -14,57 +14,56 @@ Description: Holds the genome of a <specie>, with <chromosomes_number> chromosom
              `genotype` class to provide an individual's genotype.
 """
 
-from chromosome import chromosome
-from gene import gene
+from chromosome import Chromosome
 
 
-class genome:
-  def __init__(self, specie, cr_n):
-    self.specie = specie   # Specie's name (homo sapiens?) for reference only.
-    self.cr_n = cr_n       # How many chromosomes does this genome hold? NOTE: do NOT count duplicates (e.g. 23 for humans)
-    self.chromosomes = []  # No chromosomes yet.
+class Genome:
+    def __init__(self, specie, cr_n):
+        self.specie = specie  # Specie's name (homo sapiens?) for reference only.
+        # How many chromosomes does this genome hold? NOTE: do NOT count duplicates (e.g. 23 for humans)
+        self.cr_n = cr_n
+        self.chromosomes = []  # No chromosomes yet.
 
-  # Add a chromosome to this genome.
-  def add_chromosome(self, chrom):
-    # Check if there's still space available
-    if len(self.chromosomes) >= self.cr_n:
-      print("Error: There are already " + str(self.cr_n) + " chromosomes in the genome for " + self.specie + ".")
-      return 0
+    # Add a chromosome to this genome.
+    def add_chromosome(self, chrom):
+        # Check if there's still space available
+        if len(self.chromosomes) >= self.cr_n:
+            print("Error: There are already " + str(self.cr_n) + " chromosomes in the genome for " + self.specie + ".")
+            raise IndexError
+        # Check if it is a chromosome
+        if not isinstance(chrom, Chromosome):
+            print("Error: Expected a chromosome object! (self.add_chromosome(chromosome))")
+            raise TypeError
 
-    # Check if it is a chromosome
-    if not isinstance(chrom, chromosome):
-      print("Error: Expected a chromosome object! (self.add_chromosome(chromosome))")
-      return 0
+        # Add it
+        self.chromosomes.append(chrom)
+        print("Added a chromosome to the genome!")
 
-    # Add it
-    self.chromosomes.append(chrom)
-    print("Added a chromosome to the genome!")
+    # List chromosomes in the genome
+    def list_chromosomes(self):
+        if not self.chromosomes:
+            print("There are no chromosomes added to this genome yet.")
+        else:
+            for chroma in self.chromosomes:
+                print("Chromosome number " + str(chroma.number) + " holds " + str(len(chroma.genes)) + "/" + str(
+                    chroma.length) + " genes.")
 
-  # List chromosomes in the genome
-  def list_chromosomes(self):
-    if not self.chromosomes:
-      print("There are no chromosomes added to this genome yet.")
-    else:
-      for chroma in self.chromosomes:
-        print("Chromosome number " + str(chroma.number) + " holds " + str(len(chroma.genes)) + "/" + str(chroma.length) + " genes.")
+    # Syntactic sugar section
 
+    # Access a chromosome by it's natural index
+    def access(self, idx):
+        if not len(self.chromosomes) >= idx:
+            print("Error: Can't access chromosome " + str(idx) + ": not found.")
+            return 0
+        else:
+            return self.chromosomes[idx - 1]
 
-  #----------SYNTACTIC SUGAR BELOW---------#
+    # Find a gene in all the chromosomes available in this genome
+    def search(self, gname):
+        for chroma in self.chromosomes:
+            chroma.find_gene(gname)
 
-  # Access a chromosome by it's natural index
-  def access(self, idx):
-    if not len(self.chromosomes) >= idx:
-      print("Error: Can't access chromosome " + str(idx) + ": not found.")
-      return 0
-    else:
-      return self.chromosomes[idx - 1]
-
-  # Find a gene in all the chromosomes available in this genome
-  def search(self, gname):
-    for chroma in self.chromosomes:
-      chroma.find_gene(gname)
-
-  # List all genes in all chromosomes
-  def list_all_genes(self):
-    for chroma in self.chromosomes:
-      chroma.list_genes()
+    # List all genes in all chromosomes
+    def list_all_genes(self):
+        for chroma in self.chromosomes:
+            chroma.list_genes()

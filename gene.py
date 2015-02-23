@@ -12,7 +12,9 @@ Class name: gene
 Constructor arguments: name, {future: seq}
 Description: Very simple model for a gene -- to be expanded. Holds a gene coded <name>.
              {future: Also holds the AA sequence of this gene.}
-""" 
-class gene:
-  def __init__(self, name):
-    self.name = name
+"""
+
+
+class Gene:
+    def __init__(self, name):
+        self.name = name

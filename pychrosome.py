@@ -13,21 +13,21 @@ Constructor arguments: none
 Description: Testing sandbox for pychrosome.
 """
 
-from chromosome import chromosome
-from gene import gene
-from genome import genome
+from chromosome import Chromosome
+from gene import Gene
+from genome import Genome
 
 
 # Create a few genes (primitive, no AA sequences yet)
-h = gene("HTT")
-h2 = gene("HPP")
-h3 = gene("EHE")
-h4 = gene("PIP")
-h5 = gene("A4F")
-h6 = gene("BFB")
+h = Gene("HTT")
+h2 = Gene("HPP")
+h3 = Gene("EHE")
+h4 = Gene("PIP")
+h5 = Gene("A4F")
+h6 = Gene("BFB")
 
 # Create a chromosome
-c = chromosome(1, 5)
+c = Chromosome(1, 5)
 
 # Add a few genes to c
 c.add_gene("hi")  # Shows error! Not a gene.
@@ -49,25 +49,25 @@ c.find_gene("HTT")
 c.find_gene("BFB")
 
 # Create a genome for the specie Bitch
-gnm = genome("Bitch", 2)
+gnm = Genome("Bitch", 2)
 
 # Add the earlier created chromosome c (full already)
 gnm.add_chromosome(c)
 gnm.list_chromosomes()
 
 # Add a new anonymous chromosome
-gnm.add_chromosome(chromosome(2, 3))
+gnm.add_chromosome(Chromosome(2, 3))
 gnm.list_chromosomes()
 
 # Try and add another anonymous chromosome
-gnm.add_chromosome(chromosome(3, 666))  # Throws error -> not any more space available
+gnm.add_chromosome(Chromosome(3, 666))  # Throws error -> not any more space available
 gnm.list_chromosomes()
 
 # Hard-coded way to add a gene to the anonymous chromosome
-gnm.chromosomes[1].add_gene(gene("PXP"))
+gnm.chromosomes[1].add_gene(Gene("PXP"))
 
 # Syntactic sugar for the above
-gnm.access(2).add_gene(gene("PTP"))
+gnm.access(2).add_gene(Gene("PTP"))
 
 # Try and find it hard-codedly
 gnm.chromosomes[1].find_gene("PXP")
@@ -82,14 +82,13 @@ gnm.search("PXP")
 # List all genes in the Bitch genome
 gnm.list_all_genes()
 
-
 print("----------------------CHANGE----------------------")
 # We are going to study the genome of the Mycobacterium Tuberculosis
-koch = genome("Mycobacterium Tuberculosis", 10)
+koch = Genome("Mycobacterium Tuberculosis", 10)
 
-koch.add_chromosome(chromosome(1, 2023))
-koch.add_chromosome(chromosome(2, 442))
-koch.add_chromosome(chromosome(3, 23))
+koch.add_chromosome(Chromosome(1, 2023))
+koch.add_chromosome(Chromosome(2, 442))
+koch.add_chromosome(Chromosome(3, 23))
 
 koch.access(1).add_gene("CUTE")
 koch.access(1).add_gene("ugly")
